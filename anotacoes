@@ -1,0 +1,79 @@
+{"email": "", "senha": "123"} 
+Metodo Postman
+
+Metodo telnet
+terminal: telnet localhost 3000 
+Get / HTTP/1.1 
+
+
+comando opnessl
+
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
+
+Conteudo do certificado - openssl x509 -in server.crt -text
+
+Conteudo da chave - openssl rsa -in server.key -text -noout
+
+novo livro: 
+{
+    "id": 34,
+    "categoria": 3,
+    "titulo": "Novo livro",
+    "slug": "novo-livro",
+    "descricao": "Livro do curso HTTP",
+    "isbn": "978-65-1111-11-1",
+    "numeroPaginas": 200,
+    "publicacao": "2023-01-01",
+    "imagemCapa": "heetps://raw.githubusercontent.com/viniciosneves/alurabooks/cursp-novo/public/imagens/livros/acessibilidade.png",
+    "autor": 1,
+    "opcoesCompra": [{
+        "id": 1,
+        "titulo": "E-book",
+        "preco": 29.9,
+        "formatos": [".pdf", ".pub", ".mob"]
+    }],
+    "sobre": "Compre esse livro e aprenda tudo sobre HTTP."
+}
+
+caminho vs code 
+
+server.get('/public/docs', (req, res) => {
+  const meuHtml = `
+     <h1>Documentação da API</h1>
+     <ul>
+            <li>GET /livros</li>
+            <li>POST /livros</li>
+            <li>GET /categorias</li>
+     </ul>
+    `
+    res.status(200).contentType("text/html").send(meuHtml)
+})
+
+HTTP2:
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
+
+npm i spdy
+npm run build
+
+vscode back end (server_http2.js):
+
+const spdy = require("spdy")
+const express = require("express")
+const fs = require("fs")
+
+const app = express()
+
+app.use(express.static("build"))
+
+spdy.createServer(
+    {
+        key: fs.readFileSync("./server.key"),
+        cert: fs.readFileSync("./server.crt")
+    },
+    app
+).listen(3002, (err) => {
+    if(err){
+        throw new Error(err)
+    }
+    console.log("Listening on port 3002")
+})
